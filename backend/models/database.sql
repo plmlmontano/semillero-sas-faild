@@ -54,7 +54,38 @@ CREATE TABLE vehiculos (
 DESCRIBE vehiculos;
 
 INSERT INTO vehiculos VALUES 
-  ('LMM992', 1, 'Verde', '2002', '2021-04-23 00:00:00', '2021-12-23 00:00:00',	1)
+  ('LMM992', 1, 'Verde', '2002', '2021-04-23 00:00:00', '2021-12-23 00:00:00',	1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 SELECT * FROM vehiculos;
 
 
+
+
+
+-- Ingreso de data
+INSERT INTO marca  (descripcion, estado, date_create, date_update) VALUES
+('Renault', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('Mazda', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('Toyota', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('Honda', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO linea (id_marca, descripcion, estado, date_create, date_update) VALUES
+(2, 'Descapotable', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Deportivo', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 'Familiar', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(4, 'Compacto', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 'Dos puertas', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(5, 'Subcompacto', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(4, 'Matrix', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+-- Consulta de vehiculos con id de marca 
+SELECT a.nro_placa, c.descripcion marca, b.descripcion linea, a.color, a.modelo, DATE_FORMAT(a.fecha_vencimiento_seguro, '%d/%m/%Y') 'Fecha de vencimiento seguro', DATE_FORMAT(a.fecha_vencimiento_tecnomecanica, '%d/%m/%Y') 'Fecha de vencimiento tecnomecanica', a.estado 
+FROM vehiculos a
+LEFT JOIN linea b ON a.id_linea = b.id
+LEFT JOIN marca c ON b.id_marca = c.id;
+
+SELECT * FROM marca;
+
+SELECT a.id, b.descripcion Marca, a.descripcion, a.estado
+FROM linea a
+LEFT JOIN marca b ON a.id_marca = b.id;

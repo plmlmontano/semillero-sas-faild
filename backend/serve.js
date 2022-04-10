@@ -4,7 +4,10 @@ import morgan from "morgan";
 import cors from 'cors';
 
 import indexRoutes from "./routes/index.routes";
-import semilleroRoutes from "./routes/semillero.routes";
+import vehiculoRoutes from "./routes/vehiculo.routes";
+import marcaRoutes from "./routes/marca.routes";
+import lineaRoutes from "./routes/linea.routes";
+
 
 import './database';
 
@@ -30,7 +33,9 @@ app.use((req, res, next) => {
 
 //use of route
 app.use("/api/index", indexRoutes); //Initial
-app.use("/api/semillero", semilleroRoutes); //Initial
+app.use("/api/vehiculo", vehiculoRoutes); //Initial
+app.use("/api/linea", lineaRoutes); //Initial
+app.use("/api/marca", marcaRoutes); //Initial
 
 // starting the server
 app.listen(app.get('port'), () => {

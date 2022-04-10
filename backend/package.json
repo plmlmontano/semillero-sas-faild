@@ -1,12 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Aplicacion de recopilacion de datos",
+  "description": "Semillero S.A.S",
   "main": "serve.js",
   "scripts": {
-    "start": "nodemon  --experimental-modules serve.js --exec  babel-node"
+    "start": "node -r esm serve.js",
+    "dev": "nodemon  --experimental-modules serve.js --exec  babel-node"
   },
-  "repository": "https://github.com/calypsobronte/datos.git",
+  "repository": "",
   "author": "Lina Maria Montaño Ramirez - @calypsobronte",
   "license": "MIT",
   "devDependencies": {
