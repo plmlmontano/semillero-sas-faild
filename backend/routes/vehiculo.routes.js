@@ -5,4 +5,6 @@ import * as vehiculoCtr from "../controllers/vehiculo.controllers";
 
 router.get('/', vehiculoCtr.getAll);
 router.post('/', vehiculoCtr.save);
+router.put('/:placa', vehiculoCtr.update);
+router.delete('/:placa', vehiculoCtr.deleteByPlaca);
 export default router;

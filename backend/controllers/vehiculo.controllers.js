@@ -1,7 +1,4 @@
-import moment from 'moment'
-
 import { connect } from "../database";
-
 
 export const getAll = async (req, res) => {
     try {
@@ -10,15 +7,18 @@ export const getAll = async (req, res) => {
         FROM vehiculos a
         LEFT JOIN linea b ON a.id_linea = b.id
         LEFT JOIN marca c ON b.id_marca = c.id;`);
-        if (![results]) throw new Error('No se encontro ningun registro')
-        return res.status(200).json(results);
+        if (![results]) {
+            return res.status(500).send("No se encontro ningun registro");
+        } else {
+            return res.status(200).json(results);
+        }
+
     } catch (error) {
-        console.log({ error });
+        console.error({ error });
         return res.status(500).json({ errorMessage: error.message })
     }
 
 };
-
 
 export const save = async (req, res) => {
     try {
@@ -28,11 +28,48 @@ export const save = async (req, res) => {
             ...data,
             estado: 1
         }
-        console.log("Entre aca ", save);
         const [results] = await connection.query("INSERT INTO vehiculos SET ?", save);
-        console.log(results);
-        return res.status(201).json(results);
+        if (![results]) {
+            return res.status(500).send("No se encontro ningun registro");
+        } else {
+            return res.status(200).json(`Nuevo registro: ${results}`);
+        }
     } catch (error) {
-        console.error(error);
+        console.error({ error });
+        return res.status(500).json({ errorMessage: error.message })
     }
 }
+
+export const update = async (req, res) => {
+    try {
+        const placa = req.params.placa;
+        const data = req.body;
+        const connection = await connect();
+        const [results] = await connection.query("UPDATE vehiculos SET ? WHERE nro_placa = ?;", [data, placa]);
+        if (![results]) {
+            return res.status(500).send("Error al actualizar los datos.");
+        } else {
+            return res.status(200).send("¡Datos actualizados con éxito!");
+        }
+    } catch (error) {
+        console.error({ error });
+        return res.status(500).json({ errorMessage: error.message })
+    }
+};
+
+export const deleteByPlaca = async (req, res) => {
+    try {
+        const placa = req.params.placa;
+        const connection = await connect();
+        const [results] = await connection.query("DELETE FROM vehiculos WHERE nro_placa = ?;", [placa]);
+        if (!results) {
+            return res.status(500).send("Error al eliminar los datos.");
+        } else {
+            return res.status(200).send("¡Datos eliminados con éxito!");
+        }
+
+    } catch (error) {
+        console.log({ error });
+        return res.status(500).json({ errorMessage: error.message })
+    }
+};
