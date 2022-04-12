@@ -6,7 +6,7 @@ import { connect } from "../database";
 export const getAll = async (req, res) => {
     try {
         const connection = await connect();
-        const [results] = await connection.query(`SELECT a.id, b.descripcion Marca, a.descripcion, a.estado
+        const [results] = await connection.query(`SELECT a.id, b.descripcion marca, a.descripcion, a.estado
         FROM linea a
         LEFT JOIN marca b ON a.id_marca = b.id;`);
         if (![results]) throw new Error('No se encontro ningun registro')
