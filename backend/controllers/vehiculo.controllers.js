@@ -1,5 +1,6 @@
 import { connect } from "../database";
 
+// Listar vehiculos por medio de filtros entre marca y linea
 export const getAll = async (req, res) => {
     try {
         const connection = await connect();
@@ -20,6 +21,7 @@ export const getAll = async (req, res) => {
 
 };
 
+// Crear un vehiculo
 export const save = async (req, res) => {
     try {
         const data = req.body;
@@ -40,6 +42,7 @@ export const save = async (req, res) => {
     }
 }
 
+// Actulizar informacion de un vehiculo por medio de su placa
 export const update = async (req, res) => {
     try {
         const placa = req.params.placa;
@@ -57,6 +60,7 @@ export const update = async (req, res) => {
     }
 };
 
+// Eliminar un vehiculo por medio de su placa
 export const deleteByPlaca = async (req, res) => {
     try {
         const placa = req.params.placa;
@@ -74,28 +78,11 @@ export const deleteByPlaca = async (req, res) => {
     }
 };
 
-
+// Lista de todos los vehiculos sin ninguna filtro.
 export const all = async (req, res) => {
     try {
         const connection = await connect();
         const [results] = await connection.query("SELECT * FROM vehiculos");
-        if (![results]) {
-            return res.status(500).send("No se encontro ningun registro");
-        } else {
-            return res.status(200).json(results);
-        }
-
-    } catch (error) {
-        console.error({ error });
-        return res.status(500).json({ errorMessage: error.message })
-    }
-
-};
-
-export const count = async (req, res) => {
-    try {
-        const connection = await connect();
-        const [results] = await connection.query("SELECT count(*) FROM vehiculos");
         if (![results]) {
             return res.status(500).send("No se encontro ningun registro");
         } else {
