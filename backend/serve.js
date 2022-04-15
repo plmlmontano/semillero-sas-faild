@@ -7,6 +7,7 @@ import indexRoutes from "./routes/index.routes";
 import vehiculoRoutes from "./routes/vehiculo.routes";
 import marcaRoutes from "./routes/marca.routes";
 import lineaRoutes from "./routes/linea.routes";
+import consultasRoutes from "./routes/consultas.routes";
 
 
 import './database';
@@ -36,6 +37,7 @@ app.use("/api/index", indexRoutes); //Initial
 app.use("/api/vehiculo", vehiculoRoutes); //Initial
 app.use("/api/linea", lineaRoutes); //Initial
 app.use("/api/marca", marcaRoutes); //Initial
+app.use("/api/consultas", consultasRoutes); //Initial
 
 // starting the server
 app.listen(app.get('port'), () => {
