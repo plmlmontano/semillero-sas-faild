@@ -77,15 +77,58 @@ INSERT INTO linea (id_marca, descripcion, estado, date_create, date_update) VALU
 (5, 'Subcompacto', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 (4, 'Matrix', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-
--- Consulta de vehiculos con id de marca 
-SELECT a.nro_placa, c.descripcion marca, b.descripcion linea, a.color, a.modelo, DATE_FORMAT(a.fecha_vencimiento_seguro, '%d/%m/%Y') 'Fecha de vencimiento seguro', DATE_FORMAT(a.fecha_vencimiento_tecnomecanica, '%d/%m/%Y') 'Fecha de vencimiento tecnomecanica', a.estado 
+# Marca
+-- Consulta de vehiculos con id de marca y id de linea con LEFT JOIN
+SELECT a.nro_placa, c.descripcion marca, b.descripcion linea, a.color, a.modelo, DATE_FORMAT(a.fecha_vencimiento_seguro, '%d/%m/%Y') 'Fecha de vencimiento seguro', DATE_FORMAT(a.fecha_vencimiento_tecnomecanica, '%d/%m/%Y') 'Fecha de vencimiento tecnomecanica', IF(a.estado, 'Si', 'No') 'Estado'
 FROM vehiculos a
 LEFT JOIN linea b ON a.id_linea = b.id
 LEFT JOIN marca c ON b.id_marca = c.id;
+
+-- Consulta de vehiculos con id de marca y id de linea con INNER JOIN
+SELECT a.nro_placa, c.descripcion marca, b.descripcion linea, a.color, a.modelo, DATE_FORMAT(a.fecha_vencimiento_seguro, '%d/%m/%Y') 'Fecha de vencimiento seguro', DATE_FORMAT(a.fecha_vencimiento_tecnomecanica, '%d/%m/%Y') 'Fecha de vencimiento tecnomecanica', IF(a.estado, 'Si', 'No') 'Estado'
+FROM vehiculos a
+INNER JOIN linea b ON a.id_linea = b.id
+INNER JOIN marca c ON b.id_marca = c.id;
 
 SELECT * FROM marca;
 
 SELECT a.id, b.descripcion Marca, a.descripcion, a.estado
 FROM linea a
 LEFT JOIN marca b ON a.id_marca = b.id;
+
+# Modelos
+-- Un servicio que me permita saber cuál es el modelo máximo almacenado y el mínimo.
+SELECT MAX(modelo) AS 'Modelo maximo', MIN(modelo) AS 'modelo minimo' FROM vehiculos;
+-- Un servicio que me permita consultar todos los vehículos por un rango de modelos por el campo modelo.
+SELECT * FROM vehiculos WHERE modelo >= '2000' AND modelo <= '2024';
+SELECT * FROM vehiculos WHERE modelo BETWEEN '2000' AND '2009';
+-- Suma de los modelos 
+SELECT SUM(modelo) from vehiculos;
+-- Promedio de los modelos 
+SELECT AVG(modelo) FROM vehiculos;
+-- Mostrar cuantas lineas estan en estado activa o inactivas
+SELECT COUNT(*) FROM linea WHERE estado = TRUE;
+SELECT COUNT(*) FROM linea WHERE estado = FALSE; -- colocar una en estado inactivo
+
+# Lineas
+-- Un servicio que me permita realizar una única consulta para saber cuántos registros están activos e inactivos de la tabla donde se almacenan las líneas .
+-- Estado = SI
+SELECT * FROM linea a
+INNER JOIN vehiculos b ON b.id_linea = a.id
+WHERE a.estado = TRUE;
+-- Estado = NO
+SELECT * FROM linea a
+INNER JOIN vehiculos b ON b.id_linea = a.id
+WHERE a.estado = FALSE;
+
+# Vehiculos
+-- Ver todos los vehiculos
+SELECT * FROM vehiculos;
+-- Un servicio que me permita consultar todos los vehículos por un rango de fechas sobre el campo FECHA_VEN_SEGURO.
+SELECT * FROM vehiculos WHERE fecha_vencimiento_seguro BETWEEN '2020-10-09' AND '2021-04-23';
+-- Un servicio que me permita realizar una consulta única que tenga las siguientes columnas: NRO_PLACA, MODELO, DESC_LINEA, DESC_MARCA; traer todos los registros de la tabla donde almacenes los vehículos que se encuentren en el estado S en el campo activo de la tabla donde se almacene las líneas.
+SELECT nro_placa, modelo, b.descripcion 'Marca', c.descripcion 'Linea', IF(c.estado, 'Si','No') 'Estado de linea', IF(b.estado, 'Si', 'No') 'Estado de marca'
+FROM vehiculos a, marca b, linea c
+WHERE b.id=c.id_marca AND c.id=a.id_linea AND c.estado=TRUE AND b.estado=TRUE;
+
+# Script creado por Lina María Montaño Ramirez - Backend Developer
