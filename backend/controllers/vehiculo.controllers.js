@@ -1,5 +1,5 @@
 import { connect } from "../database";
-
+import {dateFormat} from "../helpers/date"
 // Listar vehiculos por medio de filtros entre marca y linea
 export const getAll = async (req, res) => {
     try {
@@ -34,7 +34,7 @@ export const save = async (req, res) => {
         if (![results]) {
             return res.status(500).send("No se encontro ningun registro");
         } else {
-            return res.status(200).json(`Nuevo registro: ${results}`);
+            return res.status(200).json("¡Datos creados  con éxito!");
         }
     } catch (error) {
         console.error({ error });
@@ -83,10 +83,11 @@ export const all = async (req, res) => {
     try {
         const connection = await connect();
         const [results] = await connection.query("SELECT * FROM vehiculos");
+        const depureResult = dateFormat(results)
         if (![results]) {
             return res.status(500).send("No se encontro ningun registro");
         } else {
-            return res.status(200).json(results);
+            return res.status(200).json(depureResult);
         }
 
     } catch (error) {
@@ -94,4 +95,23 @@ export const all = async (req, res) => {
         return res.status(500).json({ errorMessage: error.message })
     }
 
+};
+
+// Mostrar un vehiculo por medio de su placa
+export const getByPlaca = async (req, res) => {
+    try {
+        const placa = req.params.placa;
+        const connection = await connect();
+        const [results] = await connection.query("SELECT * FROM vehiculos WHERE nro_placa = ?;", [placa]);
+        const [depureResult] = dateFormat(results)
+        if (!results) {
+            return res.status(500).send("Error al eliminar los datos.");
+        } else {
+            return res.status(200).send(depureResult);
+        }
+
+    } catch (error) {
+        console.log({ error });
+        return res.status(500).json({ errorMessage: error.message })
+    }
 };

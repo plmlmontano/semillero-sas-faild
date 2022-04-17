@@ -167,6 +167,27 @@
 									"response": []
 								},
 								{
+									"name": "list by number placa",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/vehiculo/KVR103",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"vehiculo",
+												"KVR103"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "create",
 									"request": {
 										"method": "POST",
@@ -763,12 +784,12 @@
 									"response": []
 								},
 								{
-									"name": "Lista de todos los vehiculos Copy",
+									"name": "list by number placa",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://api-semillero.herokuapp.com/api/vehiculo/all",
+											"raw": "https://api-semillero.herokuapp.com/api/vehiculo/KVR103",
 											"protocol": "https",
 											"host": [
 												"api-semillero",
@@ -778,7 +799,7 @@
 											"path": [
 												"api",
 												"vehiculo",
-												"all"
+												"KVR103"
 											]
 										}
 									},

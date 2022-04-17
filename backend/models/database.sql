@@ -58,9 +58,6 @@ INSERT INTO vehiculos VALUES
 SELECT * FROM vehiculos;
 
 
-
-
-
 -- Ingreso de data
 INSERT INTO marca  (descripcion, estado, date_create, date_update) VALUES
 ('Renault', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -106,9 +103,6 @@ SELECT * FROM vehiculos WHERE modelo BETWEEN '2000' AND '2009';
 SELECT SUM(modelo) from vehiculos;
 -- Promedio de los modelos 
 SELECT AVG(modelo) FROM vehiculos;
--- Mostrar cuantas lineas estan en estado activa o inactivas
-SELECT COUNT(*) FROM linea WHERE estado = TRUE;
-SELECT COUNT(*) FROM linea WHERE estado = FALSE; -- colocar una en estado inactivo
 
 # Lineas
 -- Un servicio que me permita realizar una única consulta para saber cuántos registros están activos e inactivos de la tabla donde se almacenan las líneas .
@@ -120,10 +114,17 @@ WHERE a.estado = TRUE;
 SELECT * FROM linea a
 INNER JOIN vehiculos b ON b.id_linea = a.id
 WHERE a.estado = FALSE;
+-- Mostrar cuantas lineas estan en estado activa o inactivas
+SELECT COUNT(*) FROM linea WHERE estado = TRUE;
+SELECT COUNT(*) FROM linea WHERE estado = FALSE; -- colocar una en estado inactivo
 
 # Vehiculos
 -- Ver todos los vehiculos
 SELECT * FROM vehiculos;
+-- Contar todos los registros de los vehiculos
+SELECT COUNT(*) FROM vehiculos;
+-- Mostrar el registro de un vehiculo por su numero de placa
+SELECT * FROM vehiculos WHERE nro_placa = 'LMM992';
 -- Un servicio que me permita consultar todos los vehículos por un rango de fechas sobre el campo FECHA_VEN_SEGURO.
 SELECT * FROM vehiculos WHERE fecha_vencimiento_seguro BETWEEN '2020-10-09' AND '2021-04-23';
 -- Un servicio que me permita realizar una consulta única que tenga las siguientes columnas: NRO_PLACA, MODELO, DESC_LINEA, DESC_MARCA; traer todos los registros de la tabla donde almacenes los vehículos que se encuentren en el estado S en el campo activo de la tabla donde se almacene las líneas.
